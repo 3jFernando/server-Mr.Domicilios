@@ -1,0 +1,61 @@
+[
+ {
+  "id": 1,
+  "name": "Restaurantes",
+  "image": "1.png",
+  "home": true
+},
+{
+  "id": 2,
+  "name": "Dispensa",
+  "image": "2.png",
+  "home": true
+},
+{
+  "id": 3,
+  "name": "Licores",
+  "image": "3.png",
+  "home": true
+},
+{
+  "id": 4,
+  "name": "Dogueria",
+  "image": "4.png",
+  "home": true
+},
+{
+  "id": 5,
+  "name": "Cafe",
+  "image": "5.png",
+  "home": true
+},
+{
+  "id": 6,
+  "name": "Heladeria",
+  "image": "6.png",
+  "home": true
+},
+{
+  "id": 7,
+  "name": "Servicios",
+  "image": "7.png",
+  "home": true
+},
+{
+  "id": 8,
+  "name": "Otros",
+  "image": "8.png",
+  "home": true
+},
+{
+ "id": 9,
+ "name": "Meremladas",
+ "image": "2.png",
+ "home": false
+},
+{
+ "id": 10,
+ "name": "Avanicos",
+ "image": "3.png",
+ "home": false
+}]
