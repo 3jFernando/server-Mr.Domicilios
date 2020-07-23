@@ -17,7 +17,10 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.9.20",
+    "multer": "^1.4.2",
     "nodemon": "^2.0.4",
-    "socket.io": "^2.3.0"
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0",
+    "uuid": "^8.2.0"
   }
 }

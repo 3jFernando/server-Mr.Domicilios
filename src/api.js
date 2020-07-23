@@ -1,6 +1,9 @@
 const {Router} = require('express');
 const router = Router();
 
+// middlewares
+const filesUpload = require('./middlewares/filesUpload');
+
 // controlladores
 const clientsController = require('./controllers/ClientsController');
 const shopsController = require('./controllers/ShopsController');
@@ -8,6 +11,7 @@ const categorysController = require('./controllers/CategorysController');
 const productsController = require('./controllers/ProductsController');
 const ordersController = require('./controllers/OrdersController');
 const inchargesController = require('./controllers/InchargesController');
+const favoritesController = require('./controllers/FavoritesController');
 
 // clientes
 router.get('/clients', clientsController.getAll);
@@ -22,8 +26,8 @@ router.get('/shops/category/:idCategory', shopsController.getByCategory);
 router.post('/shops/login', shopsController.login);
 
 // productos
-router.post('/products', productsController.store);
-router.get('/products/shop/by-cateogory/:id', productsController.getGroupByCategoryByShop);
+router.post('/products', filesUpload, productsController.store);
+router.get('/products/shop/by-cateogory/:id/:client_id', productsController.getGroupByCategoryByShop);
 router.get('/products/shop/:id', productsController.getByShop);
 
 // categorias de productos
@@ -41,5 +45,9 @@ router.put('/orders/visited/:id', ordersController.visited);
 // domiciliarios
 router.get('/incharges/shop/:id', inchargesController.getByShop);
 router.post('/incharges', inchargesController.store);
+
+// favoritos
+router.post('/favorites/client', favoritesController.store);
+router.get('/favorites/client/:id', favoritesController.getByClient);
 
 module.exports = router;

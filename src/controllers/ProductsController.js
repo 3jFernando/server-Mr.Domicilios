@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const Favorite = require('../models/Favorite');
 
 class ProductsController {
 
@@ -11,10 +12,10 @@ class ProductsController {
     try {
 
       let product = null;
-      if(!action) { // crear
+      if(action === 'false') { // crear
         
-        product= new Product();
-        product.shop_id = req.body.shop_id;
+        product = new Product();
+        product.shop_id = req.body.shop_id;        
 
       } else { // modificar
         product = await Product.findOne({ _id: req.body._id });
@@ -28,8 +29,11 @@ class ProductsController {
       product.price = req.body.price;
       product.description = req.body.description;
       product.cant = req.body.cant;
-      product.category = req.body.category;
-      product.image = req.body.image;
+      product.category = req.body.category;  
+      
+      if(req.file) {
+        product.image = `/uploads/${req.file.originalname}`;
+      }
 
       await product.save();
       return res.status(200).json({'product': product, 'status': 200, 'action': action });
@@ -47,6 +51,7 @@ class ProductsController {
       // por tienda -> id: id_tienda
       const products = [];
       const productsData = await Product.find({shop_id: req.params.id});
+      const favorites = await Favorite.find({ client_id: req.params.client_id });
 
       // agrupados por categoria
       const categorys = await Category.find({shop_id: req.params.id});
@@ -54,10 +59,28 @@ class ProductsController {
 
         // items -> productos de la categoria
         const items = productsData.filter(p => p.category == category._id);
+        const products_category = [];
+        items.map(i => {
+
+          // validar si es favorito del cliente
+          const favorite = favorites.filter(f => f.entity_id == i._id);
+
+          products_category.push({
+            _id: i._id,
+            name: i.name,
+            price: i.price,
+            description: i.description,
+            cant: i.cant,
+            category: i.category,
+            image: i.image,
+            shop_id: i.shop_id,
+            favorite: favorite.length > 0 ? true : false
+          });
+        });
 
         products.push({
           category: category.name,
-          data: items
+          data: products_category
         });
       });
 

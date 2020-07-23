@@ -3,17 +3,18 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 let io = require('socket.io');
+const path = require('path');
 
 // servidor
 let app = express();
 let server = http.createServer(app);
 
+// configuraciones
+app.use(express.static(path.join(__dirname, 'public')));
 // variables de entorno
 require('dotenv').config();
-
 // cors
 app.use(cors());
-
 // uso de JSON
 app.use(bodyParser.json());
 
