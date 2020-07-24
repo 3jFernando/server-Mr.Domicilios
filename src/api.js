@@ -2,7 +2,7 @@ const {Router} = require('express');
 const router = Router();
 
 // middlewares
-const filesUpload = require('./middlewares/filesUpload');
+const filesUploadProducts = require('./middlewares/filesUploadProducts');
 
 // controlladores
 const clientsController = require('./controllers/ClientsController');
@@ -26,7 +26,7 @@ router.get('/shops/category/:idCategory', shopsController.getByCategory);
 router.post('/shops/login', shopsController.login);
 
 // productos
-router.post('/products', filesUpload, productsController.store);
+router.post('/products', filesUploadProducts, productsController.store);
 router.get('/products/shop/by-cateogory/:id/:client_id', productsController.getGroupByCategoryByShop);
 router.get('/products/shop/:id', productsController.getByShop);
 
