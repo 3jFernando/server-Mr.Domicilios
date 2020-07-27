@@ -8,14 +8,14 @@ class ProductsController {
   store = async (req, res) => {
 
     const action = req.body.action;
-
     try {
 
       let product = null;
       if(action === 'false') { // crear
         
         product = new Product();
-        product.shop_id = req.body.shop_id;        
+        product.shop_id = req.body.shop_id;    
+        product.image = null;    
 
       } else { // modificar
         product = await Product.findOne({ _id: req.body._id });
@@ -31,9 +31,7 @@ class ProductsController {
       product.cant = req.body.cant;
       product.category = req.body.category;  
       
-      if(req.file) {
-        product.image = `/uploads/${req.file.originalname}`;
-      }
+      if(req.file) product.image = `/uploads/products/${req.file.originalname}`;
 
       await product.save();
       return res.status(200).json({'product': product, 'status': 200, 'action': action });

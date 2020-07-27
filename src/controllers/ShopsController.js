@@ -13,28 +13,43 @@ class ShopsController {
 
     try {
 
-      // verificar que el email
-      const shopEmail = await Shop.findOne({ email: req.body.email });
-      if (shopEmail) return res.status(200).json({ 'shop': null, 'status': 460, 'message': "La direccion de correo electronico ingresada ya existe." });
+      let shop = null;
+      // verificar que el email SI SE ESTA creando
+      if(req.body.action === 'CREATE') {
+        const shopEmail = await Shop.findOne({ email: req.body.email });
+        if (shopEmail) return res.status(200).json({ 'shop': null, 'status': 460, 'message': "La direccion de correo electronico ingresada ya existe." });  
+        
+        // crear
+        shop = new Shop();
 
-      const shop = new Shop();
+        // encriptar la clave
+        const hastPassword = await getSaltHashPassword(req.body.password);
+        shop.password = hastPassword;
+        
+        //shop.address_lat = req.body.address_lat;
+        //shop.address_lgn = req.body.address_lgn;        
+      } else {
 
-      shop.name = req.body.name;
-      shop.phone = req.body.phone;
-      shop.email = req.body.email;
-
-      // encriptar la clave
-      const hastPassword = await getSaltHashPassword(req.body.password);
-      shop.password = hastPassword;
+        shop = await Shop.findById(req.body._id);
+        if (!shop) return res.status(200).json({ 'shop': null, 'status': 460, 'message': "Esta tienda esta presentando problemas, por favor reinicia tu sesion." });  
+        if(req.file) shop.photo = `/uploads/shops/${req.file.originalname}`;
       
-      //shop.value_delivery = req.body.value_delivery;
-      //shop.time_type = req.body.time_type;
-      //shop.time_number = req.body.time_number;
-      //shop.categories_shops = req.body.categories_shops;
-      //shop.address_lat = req.body.address_lat;
-      //shop.address_lgn = req.body.address_lgn;
-      //shop.photo = req.body.photo;
-
+      }
+      
+      // actualizar campo adicionales de la tienda
+      if(req.body.action_type === 'OTHERS') {
+        
+        shop.value_delivery = req.body.value_delivery;
+        shop.time_type = req.body.time_type;
+        shop.time_number = req.body.time_number;
+        shop.categories_shops = req.body.categories_shops;
+      } else { // actualiiar o guardar datos basicos
+        
+        shop.name = req.body.name;
+        shop.phone = req.body.phone;
+        shop.email = req.body.email;
+      }
+      
       await shop.save();
       return res.status(200).json({ 'shop': shop, 'status': 200 });
 

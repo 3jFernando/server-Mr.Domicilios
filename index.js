@@ -47,6 +47,6 @@ io.on('connection', (socket) => {
 });
 
 // server run
-server.listen({ port: 5000, host: '192.168.88.103' }, () => console.log("server online.."));
+server.listen({ port: 5000, host: '192.168.88.105' }, () => console.log("server online.."));
 
 module.exports = server;

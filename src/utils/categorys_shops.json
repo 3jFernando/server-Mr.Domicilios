@@ -1,61 +1,61 @@
 [
+  {
+   "id": 1,
+   "name": "Restaurantes",
+   "image": "/assets/categorys_shops/1.png",
+   "home": true
+ },
  {
-  "id": 1,
-  "name": "Restaurantes",
-  "image": "1.png",
-  "home": true
-},
-{
-  "id": 2,
-  "name": "Dispensa",
-  "image": "2.png",
-  "home": true
-},
-{
-  "id": 3,
-  "name": "Licores",
-  "image": "3.png",
-  "home": true
-},
-{
-  "id": 4,
-  "name": "Dogueria",
-  "image": "4.png",
-  "home": true
-},
-{
-  "id": 5,
-  "name": "Cafe",
-  "image": "5.png",
-  "home": true
-},
-{
-  "id": 6,
-  "name": "Heladeria",
-  "image": "6.png",
-  "home": true
-},
-{
-  "id": 7,
-  "name": "Servicios",
-  "image": "7.png",
-  "home": true
-},
-{
-  "id": 8,
-  "name": "Otros",
-  "image": "8.png",
-  "home": true
-},
-{
- "id": 9,
- "name": "Meremladas",
- "image": "2.png",
- "home": false
-},
-{
- "id": 10,
- "name": "Avanicos",
- "image": "3.png",
- "home": false
-}]
+   "id": 2,
+   "name": "Dispensa",
+   "image": "/assets/categorys_shops/2.png",
+   "home": true
+ },
+ {
+   "id": 3,
+   "name": "Licores",
+   "image": "/assets/categorys_shops/3.png",
+   "home": true
+ },
+ {
+   "id": 4,
+   "name": "Dogueria",
+   "image": "/assets/categorys_shops/4.png",
+   "home": true
+ },
+ {
+   "id": 5,
+   "name": "Cafe",
+   "image": "/assets/categorys_shops/5.png",
+   "home": true
+ },
+ {
+   "id": 6,
+   "name": "Heladeria",
+   "image": "/assets/categorys_shops/6.png",
+   "home": true
+ },
+ {
+   "id": 7,
+   "name": "Servicios",
+   "image": "/assets/categorys_shops/7.png",
+   "home": true
+ },
+ {
+   "id": 8,
+   "name": "Otros",
+   "image": "/assets/categorys_shops/8.png",
+   "home": true
+ },
+ {
+  "id": 9,
+  "name": "Meremladas",
+  "image": "/assets/categorys_shops/2.png",
+  "home": false
+ },
+ {
+  "id": 10,
+  "name": "Avanicos",
+  "image": "/assets/categorys_shops/3.png",
+  "home": false
+ }]
