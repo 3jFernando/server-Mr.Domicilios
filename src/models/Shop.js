@@ -15,10 +15,19 @@ const schema = mongoose.Schema({
  time_number: Number,
  // categorias - puede tener varias (Drogueria, Panaderia, Heladeria)
  // se almancena como string pero se debe parsear a JSON de nuevo 
- categories_shops: String,
+ categories_shops: {
+   type: String,
+   default: JSON.stringify([])
+ },
  // direccion - ubicacion en el mapa
- address_lat: String,
- address_lgn: String,
+ address_lat:  {
+   type: String,
+   default: 1.85371
+ },
+ address_lgn: {
+   type: String,
+   default: -76.05071
+ },
  photo: String
 });
 

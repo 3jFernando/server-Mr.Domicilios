@@ -15,8 +15,8 @@ const productsController = require('./controllers/ProductsController');
 const ordersController = require('./controllers/OrdersController');
 const inchargesController = require('./controllers/InchargesController');
 const favoritesController = require('./controllers/FavoritesController');
-const AdvertisingController = require('./controllers/AdvertisingController');
 const advertisingController = require('./controllers/AdvertisingController');
+const reviewsController = require('./controllers/ReviewsController');
 
 // clientes
 router.get('/clients', clientsController.getAll);
@@ -29,6 +29,7 @@ router.post('/shops', filesUploadShops, shopsController.store);
 router.get('/shops', shopsController.all)
 router.get('/shops/category/:idCategory', shopsController.getByCategory);
 router.post('/shops/login', shopsController.login);
+router.post('/shops/search', shopsController.search);
 
 // productos
 router.post('/products', filesUploadProducts, productsController.store);
@@ -51,6 +52,7 @@ router.get('/orders/clients/:id', ordersController.getByClient);
 router.get('/orders/shop/:id', ordersController.getOrdersByShop);
 router.put('/orders/change-incharge', ordersController.updateIncharge);
 router.put('/orders/visited/:id', ordersController.visited);
+router.put('/orders/cancel', ordersController.cancel);
 
 // domiciliarios
 router.get('/incharges/shop/:id', inchargesController.getByShop);
@@ -64,5 +66,10 @@ router.get('/favorites/client/:id', favoritesController.getByClient);
 router.post('/advertising', filesUploadAdvertising, advertisingController.store);
 router.get('/advertising/shop/:id', advertisingController.getByShop);
 router.get('/advertising/all', advertisingController.getAll);
+router.delete('/advertising/:id', advertisingController.destroy);
+
+// opiniones
+router.post('/reviews', reviewsController.store);
+router.get('/reviews/:id', reviewsController.getByEntity);
 
 module.exports = router;

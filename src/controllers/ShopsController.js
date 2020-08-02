@@ -64,7 +64,7 @@ class ShopsController {
     try {
       const shops = await Shop.find({});
 
-      return res.status(500).json({ 'shops': shops, 'status': 200 });
+      return res.status(200).json({ 'shops': shops, 'status': 200 });
 
     } catch (e) {
       return res.status(500).json({ 'shops': null, 'error': e, 'status': 500 });
@@ -106,6 +106,28 @@ class ShopsController {
 
     return res.status(200).json({ 'shop': shop, 'status': 200 });
   } 
+
+  search = async (req, res) => {
+
+    try {
+      const shopsAll = await Shop.find({});
+            
+      // filtrar
+      function filter(query) {
+        return shopsAll.filter(shop => shop.name.toLowerCase().indexOf(query.toLowerCase()) > -1);        
+      }
+
+      console.log(req.body);
+
+      const shops = filter(req.body.query);
+
+      return res.status(200).json({ 'shops': shops, 'status': 200 });
+
+    } catch (e) {
+      return res.status(500).json({ 'shops': null, 'error': e, 'status': 500 });
+    }
+
+  }
 
 }
 

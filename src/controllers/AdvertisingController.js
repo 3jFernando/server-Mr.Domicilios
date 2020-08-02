@@ -43,16 +43,16 @@ class AdvertisingController {
           products.filter(p => p._id == item.entity_id) :
           categories.filter(c => c._id == item.entity_id);
 
-          advertisings.push({
-            _id: item._id,
-            date_created: item.date_created,
-            date_finish: item.date_finish,
-            shop_id: item.shop_id,
-            type: item.type,
-            entity_id: item.entity_id,
-            image: item.image,
-            name: entityFind ? (entityFind.length > 0 ? entityFind[0].name : 'No definido') : 'No definido'
-          });
+        advertisings.push({
+          _id: item._id,
+          date_created: item.date_created,
+          date_finish: item.date_finish,
+          shop_id: item.shop_id,
+          type: item.type,
+          entity_id: item.entity_id,
+          image: item.image,
+          name: entityFind ? (entityFind.length > 0 ? entityFind[0].name : 'No definido') : 'No definido'
+        });
       });
 
       return res.status(200).json({ 'status': 200, 'advertisings': advertisings });
@@ -78,20 +78,20 @@ class AdvertisingController {
           products.filter(p => p._id == item.entity_id) :
           categories.filter(c => c._id == item.entity_id);
 
-          // tienda
+        // tienda
         const shop = shops.filter(s => s._id == item.shop_id);
 
-          advertisings.push({
-            _id: item._id,
-            date_created: item.date_created,
-            date_finish: item.date_finish,
-            shop_id: item.shop_id,
-            type: item.type,
-            disscount: item.disscount,
-            entity: entityFind ? (entityFind.length > 0 ? entityFind[0] : null) : null,
-            shop: shop ? (shop.length > 0 ? shop[0] : null) : null,
-            image: item.image
-          });
+        advertisings.push({
+          _id: item._id,
+          date_created: item.date_created,
+          date_finish: item.date_finish,
+          shop_id: item.shop_id,
+          type: item.type,
+          disscount: item.disscount,
+          entity: entityFind ? (entityFind.length > 0 ? entityFind[0] : null) : null,
+          shop: shop ? (shop.length > 0 ? shop[0] : null) : null,
+          image: item.image
+        });
 
       });
 
@@ -99,6 +99,17 @@ class AdvertisingController {
     } catch (e) {
       return res.status(500).json({ 'status': 500, 'error': e });
     }
+
+  }
+
+  destroy = async (req, res) => {
+
+    try {
+      const advertising = await Advertising.findOneAndDelete({ _id: req.params.id });
+      if (!advertising) return res.status(200).json({ 'status': 460, 'message': 'El item esta presentando problemas.' });
+
+      return res.status(200).json({ 'status': 200, 'advertising': advertising });
+    } catch (e) { return res.status(500).json({ 'status': 500, 'error': e }); }
 
   }
 

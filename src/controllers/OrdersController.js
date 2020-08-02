@@ -3,6 +3,7 @@ const ProductOrder = require('../models/ProductOrder');
 const Shop = require('../models/Shop');
 const Client = require('../models/Client');
 const Product = require('../models/Product');
+const Incharge = require('../models/Incharge');
 
 class OrdersController {
 
@@ -220,26 +221,50 @@ class OrdersController {
 
   // modificar domiciliario
   updateIncharge = async (req, res) => {
-
     try {
-
-      // buscar la orden
-      const order = await Order.findById(req.body.id);
-      if (!order) {
-        return res.status(200).json({ 'status': 460 });
-      }
-
-      // actualizar el encargado
-      order.incharge_id = req.body.incharge_id;
-      // se asume que se esta enviado el pedido con el encargado
-      order.state = "En camino";
-      await order.save();
-      return res.status(200).json({ 'status': 200, 'order': order });
-
+      return this.findAnnUpdate(req.body, 'asing to incharge', res);    
     } catch (e) {
       return res.status(200).json({ 'status': 500, 'order': null, 'error': e });
     }
+  }
 
+  // cancelar una orden
+  cancel = async (req, res) => {    
+    try {
+      return this.findAnnUpdate(req.body, 'cancel', res);    
+    } catch (e) {
+      return res.status(200).json({ 'status': 500, 'order': null, 'error': e });
+    }
+  }
+
+  // actualizar orden y asignar encargado
+  // tambien ese usa para cancelarla
+  async findAnnUpdate(data, action, res) {
+    // buscar la orden
+    const order = await Order.findById(data.id);
+    if (!order) return res.status(200).json({ 'status': 460 });           
+
+    // encargado
+    const idIncharge = (action === 'cancel') ? order.incharge_id : data.incharge_id;
+    const incharge = await Incharge.findById(idIncharge);
+    if (!incharge) return res.status(200).json({ 'status': 470 }); 
+
+    // accion
+    if(action === 'cancel') {
+      order.state = "Cancelada";
+      incharge.state = 'Libre';
+    } else {
+      // actualizar el encargado
+      order.incharge_id = incharge._id;
+      // se asume que se esta enviado el pedido con el encargado
+      order.state = "En camino";
+      incharge.state = 'Ocupado';
+    }
+    
+    await incharge.save();
+    await order.save();
+    
+    return res.status(200).json({ 'status': 200, 'order': order });
   }
 
   // al ver detalles de una orden deja de ser nueva
@@ -258,7 +283,7 @@ class OrdersController {
       return res.status(500).json({ 'status': 500, 'error': e });
     }
 
-  }
+  }  
 
 }
 
