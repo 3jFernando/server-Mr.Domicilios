@@ -9,7 +9,7 @@ class ClientsController {
 
     try {
       const clients = await Client.find({});
-      return res.status(200).json({ 'clients': clients, 'status': 200 });
+      return res.status(200).json({ 'clients': clients, 'status': 200, 'heroku': true });
     } catch (e) {
       return res.status(500).json({ 'clients': null, 'error': e, 'status': 500 });
     }
