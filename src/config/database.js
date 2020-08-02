@@ -6,5 +6,5 @@ const db_connect = mongoose.connect(uri, {
     useUnifiedTopology: true,
 });
 
-db_connect.then(connect => console.log("Conexion a db exitosa a MongoDB Atlas "));
+db_connect.then(connect => console.log("Database connected."));
 db_connect.catch(err => console.log("error de conexion a db: ", err));
