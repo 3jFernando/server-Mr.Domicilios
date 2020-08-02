@@ -4,7 +4,6 @@ const uri = process.env.MONGOLAB_URI_LOCAL || 'mongodb+srv://userapp:tJNicAi35JJ
 const db_connect = mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useMongoClient: true
 });
 
 db_connect.then(connect => console.log("Conexion a db exitosa: "));
