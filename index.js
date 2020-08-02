@@ -1,6 +1,3 @@
-// variables de entorno
-require('dotenv').config();
-
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -14,10 +11,14 @@ let server = http.createServer(app);
 
 // configuraciones
 app.use(express.static(path.join(__dirname, 'public')));
+// variables de entorno
+require('dotenv').config();
 // cors
 app.use(cors());
 // uso de JSON
 app.use(bodyParser.json());
+// puerto
+app.set('PORT', process.env.PORT || 5000)
 
 // config database
 require('./src/config/database');
@@ -48,7 +49,7 @@ io.on('connection', (socket) => {
 });
 
 // server run
-server.listen({ port: 5000, host: '192.168.88.101' }, () => console.log("server online.."));
-//server.listen({ port: 5000 }, () => console.log("server online.."));
+//server.listen({ port: 5000, host: '192.168.88.101' }, () => console.log("server online.."));
+server.listen({ port: app.get('PORT') }, () => console.log("server online.."));
 
 module.exports = server;

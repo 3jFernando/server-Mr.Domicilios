@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const db_connect = mongoose.connect(process.env.MONGOLAB_URI_LOCAL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useMongoClient: true
 });
 
 db_connect.then(connect => console.log("Conexion a db exitosa: "));
