@@ -1,3 +1,6 @@
+// variables de entorno
+require('dotenv').config();
+
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -11,8 +14,6 @@ let server = http.createServer(app);
 
 // configuraciones
 app.use(express.static(path.join(__dirname, 'public')));
-// variables de entorno
-require('dotenv').config();
 // cors
 app.use(cors());
 // uso de JSON
