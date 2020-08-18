@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
-const uri = process.env.MONGOLAB_URI_LOCAL || 'mongodb+srv://userapp:tJNicAi35JJ4fUWB@cluster0-7sj4r.mongodb.net/mr_domicilios';
-const db_connect = mongoose.connect(uri, {
+const db_connect = mongoose.connect(process.env.MONGOLAB_URI_SERVER, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

@@ -23,7 +23,11 @@ const schema = mongoose.Schema({
   create_at: {
     type: Date,
     default: Date.now()
-  }
+  },
+  note: {
+    type: String,
+    default: String
+  },
 });
 
 const Order = mongoose.model('orders', schema);
