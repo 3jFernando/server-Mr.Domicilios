@@ -7,6 +7,10 @@ const Shop = require('../models/Shop');
 // api categoiras de las tiendas
 const CATEGORYS = require('../utils/categorys_shops.json');
 
+// controladores
+const licenceController = require('./LicencesController');
+const Licence = require('../models/Licence');
+
 class ShopsController {
 
   store = async (req, res) => {
@@ -24,8 +28,8 @@ class ShopsController {
 
         // encriptar la clave
         const hastPassword = await getSaltHashPassword(req.body.password);
-        shop.password = hastPassword;
-        
+        shop.password = hastPassword;      
+
         //shop.address_lat = req.body.address_lat;
         //shop.address_lgn = req.body.address_lgn;        
       } else {
@@ -51,6 +55,10 @@ class ShopsController {
       }
       
       await shop.save();
+
+      // crear licencia      
+      if(req.body.action === 'CREATE') licenceController.store(shop._id);      
+
       return res.status(200).json({ 'shop': shop, 'status': 200 });
 
     } catch (e) {
@@ -104,7 +112,13 @@ class ShopsController {
     const checkPassword = await bcrypt.compare(req.body.password, shop.password);
     if (!checkPassword) return res.status(200).json({ 'shop': req.body, 'status': 470, 'message': "Contraseña incorrecta!" });
 
-    return res.status(200).json({ 'shop': shop, 'status': 200 });
+    let licence = await Licence.findOne({shop_id: shop._id});
+    if(!licence) {
+      await licenceController.store(shop._id);
+      licence = await Licence.findOne({shop_id: shop._id});      
+    }
+
+    return res.status(200).json({ 'shop': shop, 'status': 200, 'licence':licence });
   } 
 
   search = async (req, res) => {
@@ -117,10 +131,7 @@ class ShopsController {
         return shopsAll.filter(shop => shop.name.toLowerCase().indexOf(query.toLowerCase()) > -1);        
       }
 
-      console.log(req.body);
-
       const shops = filter(req.body.query);
-
       return res.status(200).json({ 'shops': shops, 'status': 200 });
 
     } catch (e) {

@@ -17,6 +17,7 @@ const inchargesController = require('./controllers/InchargesController');
 const favoritesController = require('./controllers/FavoritesController');
 const advertisingController = require('./controllers/AdvertisingController');
 const reviewsController = require('./controllers/ReviewsController');
+const licencesController = require('./controllers/LicencesController');
 
 // clientes
 router.get('/clients', clientsController.getAll);
@@ -31,6 +32,9 @@ router.get('/shops/category/:idCategory', shopsController.getByCategory);
 router.post('/shops/login', shopsController.login);
 router.post('/shops/search', shopsController.search);
 
+// licencias para las tiendas
+router.get('/shops/licences/:id', licencesController.getLicence);
+
 // productos
 router.post('/products', filesUploadProducts, productsController.store);
 router.get('/products/shop/by-cateogory/:id/:client_id', productsController.getGroupByCategoryByShop);
@@ -39,6 +43,7 @@ router.get('/products/shop/:id', productsController.getByShop);
 // categorias de productos
 router.post('/categorys', categorysController.store);
 router.get('/categorys/shop/:id', categorysController.loadCategoryByShop);
+router.delete('/categorys/:id', categorysController.destroy);
 
 // categorias generales de las tiendas
 router.get('/categories/generals', async (req, res) => {
@@ -68,8 +73,9 @@ router.get('/advertising/shop/:id', advertisingController.getByShop);
 router.get('/advertising/all', advertisingController.getAll);
 router.delete('/advertising/:id', advertisingController.destroy);
 
-// opiniones
+// opiniones/reviews/comentarios -> productos/tiendas
 router.post('/reviews', reviewsController.store);
 router.get('/reviews/:id', reviewsController.getByEntity);
+router.delete('/reviews/:id', reviewsController.destroy);
 
 module.exports = router;

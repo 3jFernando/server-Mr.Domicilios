@@ -26,6 +26,7 @@ class OrdersController {
         order.shop_id = item.shop._id;
         order.client_id = req.body.client_id;
         order.value_delivery = req.body.total_delivery;
+        order.note = req.body.note;
         
         // guardar los productos de la orden
         // productos
@@ -68,6 +69,7 @@ class OrdersController {
           value_delivery: order.value_delivery,
           total: total,
           _id: order._id,
+          note: order.note,
           products,
           client: client.length > 0 ? client[0] : {name: 'No definido'}
         });
@@ -84,7 +86,7 @@ class OrdersController {
   getByClient = async (req, res) => {
 
     try {
-      const ordersData = await Order.find({ client_id: req.params.id });
+      const ordersData = await Order.find({ client_id: req.params.id, state: 'Activa' });
       const shops = await Shop.find();
       const orders = [];
 
@@ -105,6 +107,8 @@ class OrdersController {
           _id: order._id,
           shop_id: order.shop_id,
           client_id: order.client_id,
+          note: order.note,
+          state: order.state,
           shop,
         });
       });
@@ -150,6 +154,7 @@ class OrdersController {
         total: orderFind.total,
         create_at: orderFind.create_at,
         value_delivery: orderFind.value_delivery,
+        note: orderFind.note,
         shop,
         products
       }
@@ -247,12 +252,16 @@ class OrdersController {
     // encargado
     const idIncharge = (action === 'cancel') ? order.incharge_id : data.incharge_id;
     const incharge = await Incharge.findById(idIncharge);
-    if (!incharge) return res.status(200).json({ 'status': 470 }); 
+    if (!incharge) {
+      if(action !== 'cancel') {       
+        return res.status(200).json({ 'status': 470 }); 
+      }
+    }
 
     // accion
     if(action === 'cancel') {
       order.state = "Cancelada";
-      incharge.state = 'Libre';
+      if (incharge) incharge.state = 'Libre';
     } else {
       // actualizar el encargado
       order.incharge_id = incharge._id;
@@ -261,7 +270,7 @@ class OrdersController {
       incharge.state = 'Ocupado';
     }
     
-    await incharge.save();
+    if (incharge) await incharge.save();
     await order.save();
     
     return res.status(200).json({ 'status': 200, 'order': order });

@@ -8,6 +8,7 @@ class ReviewsController {
 
       const review = new Review();
 
+      review.current_id = req.body.current_id;
       review.entity_type = req.body.entity_type;
       review.entity_id = req.body.entity_id;
       review.review = req.body.review;
@@ -26,9 +27,21 @@ class ReviewsController {
   // cargar opiniones de una entidad
   getByEntity = async (req, res) => {
     try {
-      const reviews = await Review.find({entity_id: req.params.id});
+      const reviews = await Review.find({entity_id: req.params.id}).sort({created_at: -1});
 
       return res.status(200).json({'status': 200, 'reviews':reviews});
+    } catch(e) {
+      return res.status(500).json({'status': 500, 'error':e});
+    }
+  }
+
+  // eliminar
+  destroy = async (req, res) => {
+    try {
+      const review = await Review.findByIdAndDelete({_id: req.params.id});
+      if(!review) return res.status(200).json({'status': 460, 'review': null});
+
+      return res.status(200).json({'status': 200, 'review': review});
     } catch(e) {
       return res.status(500).json({'status': 500, 'error':e});
     }

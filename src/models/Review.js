@@ -14,6 +14,7 @@ const schema = mongoose.Schema({
     type: String,
     default: ''
   },
+  current_id: String,
   name: {
     type: String,
     default: 'Anonimo'

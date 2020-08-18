@@ -94,7 +94,7 @@ class ProductsController {
 
     try {
       
-      const products = await Product.find({ shop_id: req.params.id });
+      const products = await Product.find({ shop_id: req.params.id }).sort({name: 1});
       const categories = await Category.find({ shop_id: req.params.id });
 
       return res.status(200).json({'products': products, 'categories': categories, 'cant': products.length, 'status': 200 });
